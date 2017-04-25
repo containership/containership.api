@@ -6,7 +6,7 @@ module.exports = {
     // get variable
     get(req, res, next) {
         const core = req.core;
-        return core.cluster.myriad.persistence.get([core.constants.myriad.VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err, value) => {
+        return core.cluster.myriad.persistence.get([core.constants.myriad.USER_VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err, value) => {
             if(err && err.name == core.constants.myriad.ENOKEY) {
                 res.stash.code = 404;
             } else if(err) {
@@ -36,9 +36,9 @@ module.exports = {
             return next();
         }
 
-        return core.cluster.myriad.persistence.get([core.constants.myriad.VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err/*, value*/) => {
+        return core.cluster.myriad.persistence.get([core.constants.myriad.USER_VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err/*, value*/) => {
             if(err && err.name == core.constants.myriad.ENOKEY) {
-                return core.cluster.myriad.persistence.set([core.constants.myriad.VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), req.body.value, (err) => {
+                return core.cluster.myriad.persistence.set([core.constants.myriad.USER_VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), req.body.value, (err) => {
                     if(err) {
                         res.stash.code = 500;
                     } else {
@@ -76,7 +76,7 @@ module.exports = {
             return next();
         }
 
-        return core.cluster.myriad.persistence.get([core.constants.myriad.VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err/*, value*/) => {
+        return core.cluster.myriad.persistence.get([core.constants.myriad.USER_VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err/*, value*/) => {
             if(err && err.name == core.constants.myriad.ENOKEY) {
                 res.stash.code = 404;
                 return next();
@@ -85,7 +85,7 @@ module.exports = {
                 return next();
             }
 
-            return core.cluster.myriad.persistence.set([core.constants.myriad.VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), req.body.value, (err) => {
+            return core.cluster.myriad.persistence.set([core.constants.myriad.USER_VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), req.body.value, (err) => {
                 if(err) {
                     res.stash.code = 500;
                 } else {
@@ -100,7 +100,7 @@ module.exports = {
     // delete variable
     delete(req, res, next) {
         const core = req.core;
-        return core.cluster.myriad.persistence.delete([core.constants.myriad.VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err/*, value*/) => {
+        return core.cluster.myriad.persistence.delete([core.constants.myriad.USER_VARIABLES_PREFIX, req.params.variable].join(core.constants.myriad.DELIMITER), (err/*, value*/) => {
             if(err && err.name == core.constants.myriad.ENOKEY) {
                 res.stash.code = 404;
             } else if(err) {
