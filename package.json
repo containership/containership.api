@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/mocha",
+    "generateApiDocs": "aglio --theme-variables flatly --theme-full-width -i documentation.apib -o docs/index.html"
   },
   "repository": {
     "type": "git",

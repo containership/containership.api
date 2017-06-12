@@ -1,24 +1,21 @@
 containership.api
 ==================
 
-##About
+## About
 
-###Build Status
-[![Build Status](https://drone.containership.io/api/badges/containership/containership.api/status.svg)](https://drone.containership.io/containership/containership.api)
-
-###Description
+### Description
 The API for Containership
 
-###Author
+### Author
 ContainerShip Developers - developers@containership.io
 
-##Usage
+## Usage
 
-###Install
+### Install
 `npm install containership.api --save`
 
-###API
+### API
 Documentation coming soon!
 
-##Contributing
+## Contributing
 Pull requests and issues are encouraged!
