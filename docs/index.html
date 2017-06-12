@@ -1,0 +1,819 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Containership Core API</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><style>@import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Inconsolata|Raleway:200');.hljs-comment,.hljs-title{color:#8e908c}.hljs-variable,.hljs-attribute,.hljs-tag,.hljs-regexp,.ruby .hljs-constant,.xml .hljs-tag .hljs-title,.xml .hljs-pi,.xml .hljs-doctype,.html .hljs-doctype,.css .hljs-id,.css .hljs-class,.css .hljs-pseudo{color:#c82829}.hljs-number,.hljs-preprocessor,.hljs-pragma,.hljs-built_in,.hljs-literal,.hljs-params,.hljs-constant{color:#f5871f}.ruby .hljs-class .hljs-title,.css .hljs-rules .hljs-attribute{color:#eab700}.hljs-string,.hljs-value,.hljs-inheritance,.hljs-header,.ruby .hljs-symbol,.xml .hljs-cdata{color:#718c00}.css .hljs-hexcolor{color:#3e999f}.hljs-function,.python .hljs-decorator,.python .hljs-title,.ruby .hljs-function .hljs-title,.ruby .hljs-title .hljs-keyword,.perl .hljs-sub,.javascript .hljs-title,.coffeescript .hljs-title{color:#4271ae}.hljs-keyword,.javascript .hljs-function{color:#8959a8}.hljs{display:block;background:white;color:#4d4d4c;padding:.5em}.coffeescript .javascript,.javascript .xml,.tex .hljs-formula,.xml .javascript,.xml .vbscript,.xml .css,.xml .hljs-cdata{opacity:.5}.right .hljs-comment{color:#969896}.right .css .hljs-class,.right .css .hljs-id,.right .css .hljs-pseudo,.right .hljs-attribute,.right .hljs-regexp,.right .hljs-tag,.right .hljs-variable,.right .html .hljs-doctype,.right .ruby .hljs-constant,.right .xml .hljs-doctype,.right .xml .hljs-pi,.right .xml .hljs-tag .hljs-title{color:#c66}.right .hljs-built_in,.right .hljs-constant,.right .hljs-literal,.right .hljs-number,.right .hljs-params,.right .hljs-pragma,.right .hljs-preprocessor{color:#de935f}.right .css .hljs-rule .hljs-attribute,.right .ruby .hljs-class .hljs-title{color:#f0c674}.right .hljs-header,.right .hljs-inheritance,.right .hljs-name,.right .hljs-string,.right .hljs-value,.right .ruby .hljs-symbol,.right .xml .hljs-cdata{color:#b5bd68}.right .css .hljs-hexcolor,.right .hljs-title{color:#8abeb7}.right .coffeescript .hljs-title,.right .hljs-function,.right .javascript .hljs-title,.right .perl .hljs-sub,.right .python .hljs-decorator,.right .python .hljs-title,.right .ruby .hljs-function .hljs-title,.right .ruby .hljs-title .hljs-keyword{color:#81a2be}.right .hljs-keyword,.right .javascript .hljs-function{color:#b294bb}.right .hljs{display:block;overflow-x:auto;background:#1d1f21;color:#c5c8c6;padding:.5em;-webkit-text-size-adjust:none}.right .coffeescript .javascript,.right .javascript .xml,.right .tex .hljs-formula,.right .xml .css,.right .xml .hljs-cdata,.right .xml .javascript,.right .xml .vbscript{opacity:.5}body{color:black;background:white;font:400 14px / 1.42 'Roboto',Helvetica,sans-serif}header{border-bottom:1px solid #ededed;margin-bottom:12px}h1,h2,h3,h4,h5{color:black;margin:12px 0}h1 .permalink,h2 .permalink,h3 .permalink,h4 .permalink,h5 .permalink{margin-left:0;opacity:0;transition:opacity .25s ease}h1:hover .permalink,h2:hover .permalink,h3:hover .permalink,h4:hover .permalink,h5:hover .permalink{opacity:1}.triple h1 .permalink,.triple h2 .permalink,.triple h3 .permalink,.triple h4 .permalink,.triple h5 .permalink{opacity:.15}.triple h1:hover .permalink,.triple h2:hover .permalink,.triple h3:hover .permalink,.triple h4:hover .permalink,.triple h5:hover .permalink{opacity:.15}h1{font:200 36px 'Raleway',Helvetica,sans-serif;font-size:36px}h2{font:200 36px 'Raleway',Helvetica,sans-serif;font-size:30px}h3{font-size:100%;text-transform:uppercase}h5{font-size:100%;font-weight:normal}p{margin:0 0 10px}p.choices{line-height:1.6}a{color:#18bc9c;text-decoration:none}li p{margin:0}hr.split{border:0;height:1px;width:100%;padding-left:6px;margin:12px auto;background-image:linear-gradient(to right, rgba(0,0,0,0) 20%, rgba(0,0,0,0.2) 51.4%, rgba(255,255,255,0.2) 51.4%, rgba(255,255,255,0) 80%)}dl dt{float:left;width:130px;clear:left;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-left:150px}blockquote{color:rgba(0,0,0,0.5);font-size:15.5px;padding:10px 20px;margin:12px 0;border-left:5px solid #e8e8e8}blockquote p:last-child{margin-bottom:0}pre{background-color:#f5f5f5;padding:12px;border:1px solid #cfcfcf;border-radius:6px;overflow:auto}pre code{color:black;background-color:transparent;padding:0;border:none}code{color:#444;background-color:#f5f5f5;font:'Inconsolata',monospace;padding:1px 4px;border:1px solid #cfcfcf;border-radius:3px}ul,ol{padding-left:2em}table{border-collapse:collapse;border-spacing:0;margin-bottom:12px}table tr:nth-child(2n){background-color:#fafafa}table th,table td{padding:6px 12px;border:1px solid #e6e6e6}.text-muted{opacity:.5}.note,.warning{padding:.3em 1em;margin:1em 0;border-radius:2px;font-size:90%}.note h1,.warning h1,.note h2,.warning h2,.note h3,.warning h3,.note h4,.warning h4,.note h5,.warning h5,.note h6,.warning h6{font-family:200 36px 'Raleway',Helvetica,sans-serif;font-size:135%;font-weight:500}.note p,.warning p{margin:.5em 0}.note{color:black;background-color:#eff7fc;border-left:4px solid #3498db}.note h1,.note h2,.note h3,.note h4,.note h5,.note h6{color:#3498db}.warning{color:black;background-color:#fcf0ef;border-left:4px solid #d62c1a}.warning h1,.warning h2,.warning h3,.warning h4,.warning h5,.warning h6{color:#d62c1a}header{margin-top:24px}nav{position:fixed;top:24px;bottom:0;overflow-y:auto}nav .resource-group{padding:0}nav .resource-group .heading{position:relative}nav .resource-group .heading .chevron{position:absolute;top:12px;right:12px;opacity:.5}nav .resource-group .heading a{display:block;color:black;opacity:.7;border-left:2px solid transparent;margin:0}nav .resource-group .heading a:hover{text-decoration:none;background-color:bad-color;border-left:2px solid black}nav ul{list-style-type:none;padding-left:0}nav ul a{display:block;font-size:13px;color:rgba(0,0,0,0.7);padding:8px 12px;border-top:1px solid #ededed;border-left:2px solid transparent;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}nav ul a:hover{text-decoration:none;background-color:bad-color;border-left:2px solid black}nav ul>li{margin:0}nav ul>li:first-child{margin-top:-12px}nav ul>li:last-child{margin-bottom:-12px}nav ul ul a{padding-left:24px}nav ul ul li{margin:0}nav ul ul li:first-child{margin-top:0}nav ul ul li:last-child{margin-bottom:0}nav>div>div>ul>li:first-child>a{border-top:none}.preload *{transition:none !important}.pull-left{float:left}.pull-right{float:right}.badge{display:inline-block;float:right;min-width:10px;min-height:14px;padding:3px 7px;font-size:12px;color:#000;background-color:#ededed;border-radius:10px;margin:-2px 0}.badge.get{color:white;background-color:#3498db}.badge.head{color:white;background-color:#3498db}.badge.options{color:white;background-color:#3498db}.badge.put{color:white;background-color:#f39c12}.badge.patch{color:white;background-color:#f39c12}.badge.post{color:white;background-color:#18bc9c}.badge.delete{color:white;background-color:#e74c3c}.collapse-button{float:right}.collapse-button .close{display:none;color:#18bc9c;cursor:pointer}.collapse-button .open{color:#18bc9c;cursor:pointer}.collapse-button.show .close{display:inline}.collapse-button.show .open{display:none}.collapse-content{max-height:0;overflow:hidden;transition:max-height .3s ease-in-out}nav{width:220px}.container{max-width:940px;margin-left:auto;margin-right:auto}.container .row .content{margin-left:244px;width:696px}.container .row:after{content:'';display:block;clear:both}.container-fluid nav{width:22%}.container-fluid .row .content{margin-left:24%}.container-fluid.triple nav{width:16.5%;padding-right:1px}.container-fluid.triple .row .content{position:relative;margin-left:16.5%;padding-left:24px}.middle:before,.middle:after{content:'';display:table}.middle:after{clear:both}.middle{box-sizing:border-box;width:51.5%;padding-right:12px}.right{box-sizing:border-box;float:right;width:48.5%;padding-left:12px}.right a{color:#18bc9c}.right h1,.right h2,.right h3,.right h4,.right h5,.right p,.right div{color:white}.right pre{background-color:#1d1f21;border:1px solid #1d1f21}.right pre code{color:#c5c8c6}.right .description{margin-top:12px}.triple .resource-heading{font-size:125%}.definition{margin-top:12px;margin-bottom:12px}.definition .method{font-weight:bold}.definition .method.get{color:#2e80b8}.definition .method.head{color:#2e80b8}.definition .method.options{color:#2e80b8}.definition .method.post{color:#2eb89d}.definition .method.put{color:#b8822e}.definition .method.patch{color:#b8822e}.definition .method.delete{color:#b83b2e}.definition .uri{word-break:break-all;word-wrap:break-word}.definition .hostname{opacity:.5}.example-names{background-color:#eee;padding:12px;border-radius:6px}.example-names .tab-button{cursor:pointer;color:black;border:1px solid #ddd;padding:6px;margin-left:12px}.example-names .tab-button.active{background-color:#d5d5d5}.right .example-names{background-color:#444}.right .example-names .tab-button{color:white;border:1px solid #666;border-radius:6px}.right .example-names .tab-button.active{background-color:#5e5e5e}#nav-background{position:fixed;left:0;top:0;bottom:0;width:16.5%;padding-right:14.4px;background-color:#fbfbfb;border-right:1px solid #f0f0f0;z-index:-1}#right-panel-background{position:absolute;right:-12px;top:-12px;bottom:-12px;width:48.6%;background-color:#333;z-index:-1}@media (max-width:1200px){nav{width:198px}.container{max-width:840px}.container .row .content{margin-left:224px;width:606px}}@media (max-width:992px){nav{width:169.4px}.container{max-width:720px}.container .row .content{margin-left:194px;width:526px}}@media (max-width:768px){nav{display:none}.container{width:95%;max-width:none}.container .row .content,.container-fluid .row .content,.container-fluid.triple .row .content{margin-left:auto;margin-right:auto;width:95%}#nav-background{display:none}#right-panel-background{width:48.6%}}.back-to-top{position:fixed;z-index:1;bottom:0;right:24px;padding:4px 8px;color:rgba(0,0,0,0.5);background-color:#ededed;text-decoration:none !important;border-top:1px solid #ededed;border-left:1px solid #ededed;border-right:1px solid #ededed;border-top-left-radius:3px;border-top-right-radius:3px}.resource-group{padding:12px;margin-bottom:12px;background-color:white;border:1px solid #ededed;border-radius:6px}.resource-group h2.group-heading,.resource-group .heading a{padding:12px;margin:-12px -12px 12px -12px;background-color:#ededed;border-bottom:1px solid #ededed;border-top-left-radius:6px;border-top-right-radius:6px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.triple .content .resource-group{padding:0;border:none}.triple .content .resource-group h2.group-heading,.triple .content .resource-group .heading a{margin:0 0 12px 0;border:1px solid #ededed}nav .resource-group .heading a{padding:12px;margin-bottom:0}nav .resource-group .collapse-content{padding:0}.action{margin-bottom:12px;padding:12px 12px 0 12px;overflow:hidden;border:1px solid transparent;border-radius:6px}.action h4.action-heading{padding:6px 12px;margin:-12px -12px 12px -12px;border-bottom:1px solid transparent;border-top-left-radius:6px;border-top-right-radius:6px;overflow:hidden}.action h4.action-heading .name{float:right;font-weight:normal;padding:6px 0}.action h4.action-heading .method{padding:6px 12px;margin-right:12px;border-radius:3px;display:inline-block}.action h4.action-heading .method.get{color:#000;background-color:white}.action h4.action-heading .method.head{color:#000;background-color:white}.action h4.action-heading .method.options{color:#000;background-color:white}.action h4.action-heading .method.put{color:#000;background-color:white}.action h4.action-heading .method.patch{color:#000;background-color:white}.action h4.action-heading .method.post{color:#000;background-color:white}.action h4.action-heading .method.delete{color:#000;background-color:white}.action h4.action-heading code{color:#444;background-color:rgba(255,255,255,0.7);border-color:transparent;font-weight:normal;word-break:break-all;display:inline-block;margin-top:2px}.action dl.inner{padding-bottom:2px}.action .title{border-bottom:1px solid white;margin:0 -12px -1px -12px;padding:12px}.action.get{border-color:#3498db}.action.get h4.action-heading{color:white;background:#3498db;border-bottom-color:#3498db}.action.head{border-color:#3498db}.action.head h4.action-heading{color:white;background:#3498db;border-bottom-color:#3498db}.action.options{border-color:#3498db}.action.options h4.action-heading{color:white;background:#3498db;border-bottom-color:#3498db}.action.post{border-color:#18bc9c}.action.post h4.action-heading{color:white;background:#18bc9c;border-bottom-color:#18bc9c}.action.put{border-color:#f39c12}.action.put h4.action-heading{color:white;background:#f39c12;border-bottom-color:#f39c12}.action.patch{border-color:#f39c12}.action.patch h4.action-heading{color:white;background:#f39c12;border-bottom-color:#f39c12}.action.delete{border-color:#e74c3c}.action.delete h4.action-heading{color:white;background:#e74c3c;border-bottom-color:#e74c3c}</style></head><body class="preload"><a href="#top" class="text-muted back-to-top"><i class="fa fa-toggle-up"></i>&nbsp;Back to top</a><div class="container-fluid"><div class="row"><nav><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#cluster">Cluster</a></div><div class="collapse-content"><ul><li><a href="#cluster-get-cluster-state-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Cluster State</a></li><li><a href="#cluster-shutdown-containership-delete"><span class="badge delete"><i class="fa fa-times"></i></span>Shutdown Containership</a></li></ul></div></div><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#applications">Applications</a></div><div class="collapse-content"><ul><li><a href="#applications-cluster-applications">Cluster Applications</a><ul><li><a href="#applications-cluster-applications-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get All Applications</a></li><li><a href="#applications-cluster-applications-post"><span class="badge post"><i class="fa fa-plus"></i></span>Create Applications</a></li></ul></li><li><a href="#applications-cluster-application">Cluster Application</a><ul><li><a href="#applications-cluster-application-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Application</a></li><li><a href="#applications-cluster-application-post"><span class="badge post"><i class="fa fa-plus"></i></span>Create Application</a></li><li><a href="#applications-cluster-application-put"><span class="badge put"><i class="fa fa-pencil"></i></span>Update Application</a></li><li><a href="#applications-cluster-application-delete"><span class="badge delete"><i class="fa fa-times"></i></span>Delete Application</a></li></ul></li></ul></div></div><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#containers">Containers</a></div><div class="collapse-content"><ul><li><a href="#containers-application-containers">Application Containers</a><ul><li><a href="#containers-application-containers-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Application Containers</a></li><li><a href="#containers-application-containers-post"><span class="badge post"><i class="fa fa-plus"></i></span>Create Application Containers</a></li><li><a href="#containers-application-containers-delete"><span class="badge delete"><i class="fa fa-times"></i></span>Delete Application Containers</a></li></ul></li><li><a href="#containers-application-container">Application Container</a><ul><li><a href="#containers-application-container-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Application Container</a></li><li><a href="#containers-application-container-delete"><span class="badge delete"><i class="fa fa-times"></i></span>Delete Application Container</a></li></ul></li></ul></div></div><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#hosts">Hosts</a></div><div class="collapse-content"><ul><li><a href="#hosts-get-cluster-hosts-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Cluster Hosts</a></li><li><a href="#hosts-cluster-host">Cluster Host</a><ul><li><a href="#hosts-cluster-host-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Cluster Host</a></li><li><a href="#hosts-cluster-host-put"><span class="badge put"><i class="fa fa-pencil"></i></span>Update Cluster Host</a></li><li><a href="#hosts-cluster-host-delete"><span class="badge delete"><i class="fa fa-times"></i></span>Delete Cluster Host</a></li></ul></li></ul></div></div><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#variables">Variables</a></div><div class="collapse-content"><ul><li><a href="#variables-get-cluster-variables-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Cluster Variables</a></li><li><a href="#variables-cluster-variable">Cluster Variable</a><ul><li><a href="#variables-cluster-variable-post"><span class="badge post"><i class="fa fa-plus"></i></span>Create Cluster Variable</a></li><li><a href="#variables-cluster-variable-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Get Cluster Variable</a></li><li><a href="#variables-cluster-variable-put"><span class="badge put"><i class="fa fa-pencil"></i></span>Update Cluster Variable</a></li><li><a href="#variables-cluster-variable-delete"><span class="badge delete"><i class="fa fa-times"></i></span>Delete Cluster Variable</a></li></ul></li></ul></div></div></nav><div class="content"><header><h1 id="top">Containership Core API</h1></header><p>The Containership Core API.</p>
+<p>Current version: v1</p>
+<section id="cluster" class="resource-group"><h2 class="group-heading">Cluster <a href="#cluster" class="permalink">&para;</a></h2><p>Containership Cluster actions.</p>
+<div id="cluster-get-cluster-state" class="resource"><h3 class="resource-heading">Get Cluster State <a href="#cluster-get-cluster-state" class="permalink">&nbsp;&para;</a></h3><div id="cluster-get-cluster-state-get" class="action get"><h4 class="action-heading"><div class="name">Get Cluster State</div><a href="#cluster-get-cluster-state-get" class="method get">GET</a><code class="uri">/{api_version}/cluster/state</code></h4><p>This gets the cluster hosts and applications.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/cluster/state</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">hosts</span>": <span class="hljs-value">[...]</span>,
+    "<span class="hljs-attribute">applications</span>": <span class="hljs-value">[...]
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="cluster-shutdown-containership" class="resource"><h3 class="resource-heading">Shutdown Containership <a href="#cluster-shutdown-containership" class="permalink">&nbsp;&para;</a></h3><div id="cluster-shutdown-containership-delete" class="action delete"><h4 class="action-heading"><div class="name">Shutdown Containership</div><a href="#cluster-shutdown-containership-delete" class="method delete">DELETE</a><code class="uri">/{api_version}/cluster</code></h4><p>This will shutdown all containership processes across the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/cluster</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section><section id="applications" class="resource-group"><h2 class="group-heading">Applications <a href="#applications" class="permalink">&para;</a></h2><p>Actions to add, remove, and update cluster applications.</p>
+<div id="applications-cluster-applications" class="resource"><h3 class="resource-heading">Cluster Applications <a href="#applications-cluster-applications" class="permalink">&nbsp;&para;</a></h3><div id="applications-cluster-applications-get" class="action get"><h4 class="action-heading"><div class="name">Get All Applications</div><a href="#applications-cluster-applications-get" class="method get">GET</a><code class="uri">/{api_version}/applications</code></h4><p>This gets all applications currently running on the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">redis</span>":<span class="hljs-value">{
+       "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"redis"</span></span>,
+       "<span class="hljs-attribute">tags</span>":<span class="hljs-value">{
+          "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"tester"</span></span>,
+          "<span class="hljs-attribute">constraints</span>":<span class="hljs-value">{
+             "<span class="hljs-attribute">per_host</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+          </span>}
+       </span>}</span>,
+       "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+       "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+       "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+       "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+       "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+       "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+       "<span class="hljs-attribute">volumes</span>":<span class="hljs-value">[{
+          "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+       </span>}]</span>,
+       "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+       "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+       "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span></span>,
+       "<span class="hljs-attribute">privileged</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+       "<span class="hljs-attribute">discovery_port</span>": <span class="hljs-value"><span class="hljs-number">10555</span></span>,
+       "<span class="hljs-attribute">containers</span>":<span class="hljs-value">[
+          {
+             "<span class="hljs-attribute">tags</span>":<span class="hljs-value">{
+                "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-a24b-4b59-9113-cd9f41a4cdea"</span></span>,
+                "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"tester"</span></span>,
+                "<span class="hljs-attribute">constraints</span>":<span class="hljs-value">{
+                   "<span class="hljs-attribute">per_host</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+                </span>}
+             </span>}</span>,
+             "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+             "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+             "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+             "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+             "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+             "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+             "<span class="hljs-attribute">volumes</span>":<span class="hljs-value">[{
+                "<span class="hljs-attribute">container</span>":<span class="hljs-value"><span class="hljs-string">"/data"</span>
+             </span>}]</span>,
+             "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+             "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+             "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span></span>,
+             "<span class="hljs-attribute">privileged</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+             "<span class="hljs-attribute">discovery_port</span>": <span class="hljs-value"><span class="hljs-number">10555</span></span>,
+             "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"05f1382f-e892-49f8-9f60-305b88e8aeb1"</span></span>,
+             "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"unloaded"</span>
+          </span>}
+       ]
+    </span>}
+    ...
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="applications-cluster-applications-post" class="action post"><h4 class="action-heading"><div class="name">Create Applications</div><a href="#applications-cluster-applications-post" class="method post">POST</a><code class="uri">/{api_version}/applications</code></h4><p>This creates new application(s) on the cluster.</p>
+<ul>
+<li>
+<p>{application name} (object) - Settings for the new application</p>
+</li>
+<li>
+<p>{application name}.id (string) - ID/name of application</p>
+</li>
+<li>
+<p>{application name}.cpus (number) - CPU allocation per container</p>
+</li>
+<li>
+<p>{application name}.tags (object) - Object containing tags to configure how the application’s containers are orchestrated.</p>
+</li>
+<li>
+<p>{application name}.tags.constraints (object) - Optional object containing constrainsts for the application.</p>
+</li>
+<li>
+<p>{application name}.tags.constraints.min (number) - Optional minimum number of containers of the application that must be running.</p>
+</li>
+<li>
+<p>{application name}.tags.constraints.max (number) - Optional maximum number of containers of the application that can be running.</p>
+</li>
+<li>
+<p>{application name}.tags.constraints.per_host (number) - Optional minimum number of containers of the application that must be running on each host.</p>
+</li>
+<li>
+<p>{application name}.tags.partition (string) - Splits the number of containers of the application evenly between hosts with different values for a given tag.  For example if we partitioned on the tag “testtag”, and were running 6 containers of the application, and had 3 follower hosts, two hosts have the tag “testtag: 1” and the third host has the host tag “testtag: 2” then 3 of the containers would be split between the two hosts with “testtag:1” and the other 3 containers would be on the host with the tag “testtag: 2”.</p>
+</li>
+<li>
+<p>{application name}.tags.metadata (object) - Anything under here is informational and will not constrain the application in any way.</p>
+</li>
+<li>
+<p>{application name}.tags.{host tag name} - Any host tag name and value set at the root level of the tags object will cause the application to run solely on hosts with that host tag key and value.</p>
+</li>
+<li>
+<p>{application name}.image (string) - Docker image registry path.</p>
+</li>
+<li>
+<p>{application name}.engine (string) - linux container engine, currently always docker</p>
+</li>
+<li>
+<p>{application name}.memory (string) - Memory allocation per container</p>
+</li>
+<li>
+<p>{application name}.command (string) - Application start command. If your image contains an ENTRYPOINT this will be appended to the end of it.</p>
+</li>
+<li>
+<p>{application name}.respawn (boolean) - Whether the containers should automatically respawn if unloaded.</p>
+</li>
+<li>
+<p>{application name}.volumes (object[]) - Volumes to mount into the containers.</p>
+</li>
+<li>
+<p>{application name}.env_vars (object) - Environment variables to pass into the containers</p>
+</li>
+<li>
+<p>{application name}.containers (object[]) - Array of empty objects for the number of containers to be created for the application.</p>
+</li>
+<li>
+<p>{application name}.network_mode (string) - Which networking interface to use. If “bridge”, the container is given its own networking interface and can run on any port within the container that is then mapped out to a different port on the host.  If “host” the container runs on the host’s networking interface and runs on the same port inside and outside of the container.  WARNING: If running in host mode, only one container of a given application can be running on each host.  This can cause scaling issues.  Read the help documentation on host constraint tagging to enforce this.</p>
+</li>
+<li>
+<p>{application name}.container_port (string) - Port your application listens on in the container, the PORT environment variable is automatically set to this.</p>
+</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">redis</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"redis"</span></span>,
+        "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+        "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{}</span>,
+        "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+        "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+        "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+        "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+        "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+        "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[{
+           "<span class="hljs-attribute">container</span>":<span class="hljs-value"><span class="hljs-string">"/data"</span>
+        </span>}]</span>,
+        "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+        "<span class="hljs-attribute">containers</span>": <span class="hljs-value">[{}]</span>,
+        "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+        "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span>
+    </span>}
+    ...
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">success</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="applications-cluster-application" class="resource"><h3 class="resource-heading">Cluster Application <a href="#applications-cluster-application" class="permalink">&nbsp;&para;</a></h3><div id="applications-cluster-application-get" class="action get"><h4 class="action-heading"><div class="name">Get Application</div><a href="#applications-cluster-application-get" class="method get">GET</a><code class="uri">/{api_version}/applications/{application}</code></h4><p>This gets the details of the specified application running on the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"redis"</span></span>,
+  "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"tester"</span></span>,
+    "<span class="hljs-attribute">constraints</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">per_host</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+  "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+  "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+  "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+  "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+  "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+  "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span></span>,
+  "<span class="hljs-attribute">privileged</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+  "<span class="hljs-attribute">discovery_port</span>": <span class="hljs-value"><span class="hljs-number">10555</span></span>,
+  "<span class="hljs-attribute">containers</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-a24b-4b59-9113-cd9f41a4cdea"</span></span>,
+        "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"tester"</span></span>,
+        "<span class="hljs-attribute">constraints</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">per_host</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+        </span>}
+      </span>}</span>,
+      "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+      "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+      "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+      "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+      "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+      "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+      "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[
+        {
+          "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+        </span>}
+      ]</span>,
+      "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+      "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+      "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span></span>,
+      "<span class="hljs-attribute">privileged</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+      "<span class="hljs-attribute">discovery_port</span>": <span class="hljs-value"><span class="hljs-number">10555</span></span>,
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"05f1382f-e892-49f8-9f60-305b88e8aeb1"</span></span>,
+      "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"unloaded"</span>
+    </span>}
+  ]
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="applications-cluster-application-post" class="action post"><h4 class="action-heading"><div class="name">Create Application</div><a href="#applications-cluster-application-post" class="method post">POST</a><code class="uri">/{api_version}/applications/{application}</code></h4><p>This creates a new application on the cluster.</p>
+<ul>
+<li>
+<p>id (string) - ID/name of application</p>
+</li>
+<li>
+<p>cpus (number) - CPU allocation per container</p>
+</li>
+<li>
+<p>tags (object) - Object containing tags to configure how the application’s containers are orchestrated.</p>
+</li>
+<li>
+<p>tags.constraints (object) - Optional object containing constrainsts for the application.</p>
+</li>
+<li>
+<p>tags.constraints.min (number) - Optional minimum number of containers of the application that must be running.</p>
+</li>
+<li>
+<p>tags.constraints.max (number) - Optional maximum number of containers of the application that can be running.</p>
+</li>
+<li>
+<p>tags.constraints.per_host (number) - Optional minimum number of containers of the application that must be running on each host.</p>
+</li>
+<li>
+<p>tags.partition (string) - Splits the number of containers of the application evenly between hosts with different values for a given tag.  For example if we partitioned on the tag “testtag”, and were running 6 containers of the application, and had 3 follower hosts, two hosts have the tag “testtag: 1” and the third host has the host tag “testtag: 2” then 3 of the containers would be split between the two hosts with “testtag:1” and the other 3 containers would be on the host with the tag “testtag: 2”.</p>
+</li>
+<li>
+<p>tags.metadata (object) - Anything under here is informational and will not constrain the application in any way.</p>
+</li>
+<li>
+<p>tags.{host tag name} - Any host tag name and value set at the root level of the tags object will cause the application to run solely on hosts with that host tag key and value.</p>
+</li>
+<li>
+<p>image (string) - Docker image registry path.</p>
+</li>
+<li>
+<p>engine (string) - linux container engine, currently always docker</p>
+</li>
+<li>
+<p>memory (string) - Memory allocation per container</p>
+</li>
+<li>
+<p>command (string) - Application start command. If your image contains an ENTRYPOINT this will be appended to the end of it.</p>
+</li>
+<li>
+<p>respawn (boolean) - Whether the containers should automatically respawn if unloaded.</p>
+</li>
+<li>
+<p>volumes (object[]) - Volumes to mount into the containers.</p>
+</li>
+<li>
+<p>env_vars (object) - Environment variables to pass into the containers</p>
+</li>
+<li>
+<p>containers (object[]) - Array of empty objects for the number of containers to be created for the application.</p>
+</li>
+<li>
+<p>network_mode (string) - Which networking interface to use. If “bridge”, the container is given its own networking interface and can run on any port within the container that is then mapped out to a different port on the host.  If “host” the container runs on the host’s networking interface and runs on the same port inside and outside of the container.  WARNING: If running in host mode, only one container of a given application can be running on each host.  This can cause scaling issues.  Read the help documentation on host constraint tagging to enforce this.</p>
+</li>
+<li>
+<p>container_port (string) - Port your application listens on in the container, the PORT environment variable is automatically set to this.</p>
+</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"redis"</span></span>,
+  "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+  "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+  "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+  "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+  "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+  "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">containers</span>": <span class="hljs-value">[
+    {}
+  ]</span>,
+  "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+  "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">success</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="applications-cluster-application-put" class="action put"><h4 class="action-heading"><div class="name">Update Application</div><a href="#applications-cluster-application-put" class="method put">PUT</a><code class="uri">/{api_version}/applications/{application}</code></h4><p>This updates an application running on the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method put">PUT</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"redis"</span></span>,
+  "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+  "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+  "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+  "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+  "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+  "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">containers</span>": <span class="hljs-value">[
+    {}
+  ]</span>,
+  "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+  "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">success</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="applications-cluster-application-delete" class="action delete"><h4 class="action-heading"><div class="name">Delete Application</div><a href="#applications-cluster-application-delete" class="method delete">DELETE</a><code class="uri">/{api_version}/applications/{application}</code></h4><p>This deletes an application currently running on the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section><section id="containers" class="resource-group"><h2 class="group-heading">Containers <a href="#containers" class="permalink">&para;</a></h2><p>These actions are used to manipulate and scale the number of containers for a given application.</p>
+<div id="containers-application-containers" class="resource"><h3 class="resource-heading">Application Containers <a href="#containers-application-containers" class="permalink">&nbsp;&para;</a></h3><div id="containers-application-containers-get" class="action get"><h4 class="action-heading"><div class="name">Get Application Containers</div><a href="#containers-application-containers-get" class="method get">GET</a><code class="uri">/{api_version}/applications/{application}/containers</code></h4><p>This gets the details of the containers currently running for the given application.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span>/containers</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-a24b-4b59-9113-cd9f41a4cdea"</span></span>,
+      "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"tester"</span></span>,
+      "<span class="hljs-attribute">constraints</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">per_host</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+      </span>}
+    </span>}</span>,
+    "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+    "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+    "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+    "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+    "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+    "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+    "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[
+      {
+        "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+      </span>}
+    ]</span>,
+    "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+    "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+    "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span></span>,
+    "<span class="hljs-attribute">privileged</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">discovery_port</span>": <span class="hljs-value"><span class="hljs-number">10555</span></span>,
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"05f1382f-e892-49f8-9f60-305b88e8aeb1"</span></span>,
+    "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"unloaded"</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div></div><div id="containers-application-containers-post" class="action post"><h4 class="action-heading"><div class="name">Create Application Containers</div><a href="#containers-application-containers-post" class="method post">POST</a><code class="uri">/{api_version}/applications/{application}/containers</code></h4><p>This adds the number of containers in the “count” query string to the application.</p>
+<ul>
+<li>
+<p>count (number) - REQUIRED QUERY STRING value of the number of containers to add.</p>
+</li>
+<li>
+<p>tags (object) - Optional tags to add to container</p>
+</li>
+<li>
+<p>container_port - Optional port the application should listen on inside of the container</p>
+</li>
+<li>
+<p>host_port - Optional port to map the container port to on the host’s networking interface</p>
+</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span>/containers</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-number">3000</span></span>,
+  "<span class="hljs-attribute">host_port</span>": <span class="hljs-value"><span class="hljs-number">10000</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>201</code></strong></div></div><div id="containers-application-containers-delete" class="action delete"><h4 class="action-heading"><div class="name">Delete Application Containers</div><a href="#containers-application-containers-delete" class="method delete">DELETE</a><code class="uri">/{api_version}/applications/{application}/containers</code></h4><p>This removes the number of containers in the “count” query that are running this application.</p>
+<ul>
+<li>count (number) - REQUIRED QUERY STRING value of the number of containers to remove.</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span>/containers</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div><div id="containers-application-container" class="resource"><h3 class="resource-heading">Application Container <a href="#containers-application-container" class="permalink">&nbsp;&para;</a></h3><div id="containers-application-container-get" class="action get"><h4 class="action-heading"><div class="name">Get Application Container</div><a href="#containers-application-container-get" class="method get">GET</a><code class="uri">/{api_version}/applications/{application}/containers/{container}</code></h4><p>This gets the details of the specified application container.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span>/containers/<span class="hljs-attribute" title="container">container</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd><dt>container</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Container ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-a24b-4b59-9113-cd9f41a4cdea"</span></span>,
+    "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"tester"</span></span>,
+    "<span class="hljs-attribute">constraints</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">per_host</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">0.1</span></span>,
+  "<span class="hljs-attribute">image</span>": <span class="hljs-value"><span class="hljs-string">"library/redis:3.0.3"</span></span>,
+  "<span class="hljs-attribute">engine</span>": <span class="hljs-value"><span class="hljs-string">"docker"</span></span>,
+  "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">128</span></span>,
+  "<span class="hljs-attribute">command</span>": <span class="hljs-value"><span class="hljs-string">"redis-server --appendonly yes"</span></span>,
+  "<span class="hljs-attribute">respawn</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">volumes</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">container</span>": <span class="hljs-value"><span class="hljs-string">"/data"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">env_vars</span>": <span class="hljs-value">{}</span>,
+  "<span class="hljs-attribute">network_mode</span>": <span class="hljs-value"><span class="hljs-string">"bridge"</span></span>,
+  "<span class="hljs-attribute">container_port</span>": <span class="hljs-value"><span class="hljs-string">"6379"</span></span>,
+  "<span class="hljs-attribute">privileged</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+  "<span class="hljs-attribute">discovery_port</span>": <span class="hljs-value"><span class="hljs-number">10555</span></span>,
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"05f1382f-e892-49f8-9f60-305b88e8aeb1"</span></span>,
+  "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"unloaded"</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="containers-application-container-delete" class="action delete"><h4 class="action-heading"><div class="name">Delete Application Container</div><a href="#containers-application-container-delete" class="method delete">DELETE</a><code class="uri">/{api_version}/applications/{application}/containers/{container}</code></h4><p>This deletes the specified application container.</p>
+<h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/applications/<span class="hljs-attribute" title="application">application</span>/containers/<span class="hljs-attribute" title="container">container</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>application</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Application ID</p>
+</dd><dt>container</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Container ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section><section id="hosts" class="resource-group"><h2 class="group-heading">Hosts <a href="#hosts" class="permalink">&para;</a></h2><p>These actions are used to get the information for cluster hosts, update host tags, and remove them from the cluster.</p>
+<div id="hosts-get-cluster-hosts" class="resource"><h3 class="resource-heading">Get Cluster Hosts <a href="#hosts-get-cluster-hosts" class="permalink">&nbsp;&para;</a></h3><div id="hosts-get-cluster-hosts-get" class="action get"><h4 class="action-heading"><div class="name">Get Cluster Hosts</div><a href="#hosts-get-cluster-hosts-get" class="method get">GET</a><code class="uri">/{api_version}/hosts</code></h4><p>This get the hosts in the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/hosts</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+   "<span class="hljs-attribute">aa159c88-1234-1234-1234-1234234534</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">last_sync</span>": <span class="hljs-value"><span class="hljs-number">1497022452712</span></span>,
+        "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+           "<span class="hljs-attribute">cloud</span>":<span class="hljs-value">{
+                "<span class="hljs-attribute">region</span>": <span class="hljs-value"><span class="hljs-string">"nyc1"</span></span>,
+                "<span class="hljs-attribute">droplet_id</span>": <span class="hljs-value"><span class="hljs-string">"12345678"</span></span>,
+                "<span class="hljs-attribute">provider</span>": <span class="hljs-value"><span class="hljs-string">"digital_ocean"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">metadata</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">engines</span>": <span class="hljs-value">{
+                    "<span class="hljs-attribute">docker</span>": <span class="hljs-value">{
+                        "<span class="hljs-attribute">client_version</span>":<span class="hljs-value"><span class="hljs-string">"17.05.0-ce"</span></span>,
+                        "<span class="hljs-attribute">api_version</span>":<span class="hljs-value"><span class="hljs-string">"1.29"</span></span>,
+                        "<span class="hljs-attribute">go_version</span>":<span class="hljs-value"><span class="hljs-string">"go1.7.5"</span>
+                    </span>}
+                </span>}
+            </span>}</span>,
+            "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span></span>,
+            "<span class="hljs-attribute">host_name</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">state</span>": <span class="hljs-value"><span class="hljs-string">"operational"</span></span>,
+        "<span class="hljs-attribute">mode</span>": <span class="hljs-value"><span class="hljs-string">"follower"</span></span>,
+        "<span class="hljs-attribute">engines</span>": <span class="hljs-value">{}</span>,
+        "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">988683878</span></span>,
+        "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+        "<span class="hljs-attribute">metadata</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">containership</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">version</span>": <span class="hljs-value"><span class="hljs-string">"1.8.1"</span>
+            </span>}
+        </span>}</span>,
+        "<span class="hljs-attribute">start_time</span>": <span class="hljs-value"><span class="hljs-number">1496952929132</span></span>,
+        "<span class="hljs-attribute">management_port</span>": <span class="hljs-value"><span class="hljs-number">2666</span></span>,
+        "<span class="hljs-attribute">praetor</span>": <span class="hljs-value">{
+           "<span class="hljs-attribute">start_time</span>": <span class="hljs-value"><span class="hljs-number">1496952929136</span></span>,
+           "<span class="hljs-attribute">leader_eligible</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+           "<span class="hljs-attribute">leader</span>": <span class="hljs-value"><span class="hljs-literal">false</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span></span>,
+        "<span class="hljs-attribute">port</span>": <span class="hljs-value"><span class="hljs-number">2777</span></span>,
+        "<span class="hljs-attribute">host_name</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span></span>,
+        "<span class="hljs-attribute">address</span>": <span class="hljs-value">{
+           "<span class="hljs-attribute">private</span>": <span class="hljs-value"><span class="hljs-string">"10.123.12.123"</span></span>,
+           "<span class="hljs-attribute">public</span>": <span class="hljs-value"><span class="hljs-string">"123.123.123.123"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">containers</span>":<span class="hljs-value">[...]
+   </span>}</span>,
+   "<span class="hljs-attribute">f4da35b0-1234-1234-1234-1234234534</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">last_sync</span>": <span class="hljs-value"><span class="hljs-number">1497022452306</span></span>,
+        "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">cloud</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">region</span>": <span class="hljs-value"><span class="hljs-string">"nyc1"</span></span>,
+                "<span class="hljs-attribute">droplet_id</span>": <span class="hljs-value"><span class="hljs-string">"51210243"</span></span>,
+                "<span class="hljs-attribute">provider</span>": <span class="hljs-value"><span class="hljs-string">"digital_ocean"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"f4da35b0-1234-1234-1234-1234234534"</span></span>,
+            "<span class="hljs-attribute">host_name</span>": <span class="hljs-value"><span class="hljs-string">"f4da35b0-1234-1234-1234-1234234534"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">state</span>": <span class="hljs-value"><span class="hljs-string">"operational"</span></span>,
+        "<span class="hljs-attribute">praetor</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">leader</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+            "<span class="hljs-attribute">leader_eligible</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+            "<span class="hljs-attribute">start_time</span>": <span class="hljs-value"><span class="hljs-number">1496952914591</span>
+       </span>}</span>,
+       "<span class="hljs-attribute">mode</span>": <span class="hljs-value"><span class="hljs-string">"leader"</span></span>,
+       "<span class="hljs-attribute">metadata</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">containership</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">version</span>": <span class="hljs-value"><span class="hljs-string">"1.8.1"</span>
+            </span>}
+        </span>}</span>,
+        "<span class="hljs-attribute">start_time</span>": <span class="hljs-value"><span class="hljs-number">1496952914587</span></span>,
+        "<span class="hljs-attribute">management_port</span>": <span class="hljs-value"><span class="hljs-number">2666</span></span>,
+        "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"f4da35b0-1234-1234-1234-1234234534"</span></span>,
+        "<span class="hljs-attribute">port</span>": <span class="hljs-value"><span class="hljs-number">2777</span></span>,
+        "<span class="hljs-attribute">host_name</span>": <span class="hljs-value"><span class="hljs-string">"f4da35b0-1234-1234-1234-1234234534"</span></span>,
+        "<span class="hljs-attribute">address</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">private</span>": <span class="hljs-value"><span class="hljs-string">"10.136.65.133"</span></span>,
+            "<span class="hljs-attribute">public</span>": <span class="hljs-value"><span class="hljs-string">"192.241.130.165"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">pubkey</span>": <span class="hljs-value">[...]</span>,
+        "<span class="hljs-attribute">prime</span>": <span class="hljs-value">[...]</span>,
+        "<span class="hljs-attribute">containers</span>": <span class="hljs-value">[]
+    </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="hosts-cluster-host" class="resource"><h3 class="resource-heading">Cluster Host <a href="#hosts-cluster-host" class="permalink">&nbsp;&para;</a></h3><div id="hosts-cluster-host-get" class="action get"><h4 class="action-heading"><div class="name">Get Cluster Host</div><a href="#hosts-cluster-host-get" class="method get">GET</a><code class="uri">/{api_version}/hosts/{host}</code></h4><p>This gets the details of the specified host in the cluster.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/hosts/<span class="hljs-attribute" title="host">host</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>host</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Host ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">last_sync</span>": <span class="hljs-value"><span class="hljs-number">1497022452712</span></span>,
+    "<span class="hljs-attribute">tags</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">cloud</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">region</span>": <span class="hljs-value"><span class="hljs-string">"nyc1"</span></span>,
+            "<span class="hljs-attribute">droplet_id</span>": <span class="hljs-value"><span class="hljs-string">"12345678"</span></span>,
+            "<span class="hljs-attribute">provider</span>": <span class="hljs-value"><span class="hljs-string">"digital_ocean"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">metadata</span>":<span class="hljs-value">{
+            "<span class="hljs-attribute">engines</span>":<span class="hljs-value">{
+               "<span class="hljs-attribute">docker</span>":<span class="hljs-value">{
+                    "<span class="hljs-attribute">client_version</span>":<span class="hljs-value"><span class="hljs-string">"17.05.0-ce"</span></span>,
+                    "<span class="hljs-attribute">api_version</span>":<span class="hljs-value"><span class="hljs-string">"1.29"</span></span>,
+                    "<span class="hljs-attribute">go_version</span>":<span class="hljs-value"><span class="hljs-string">"go1.7.5"</span>
+               </span>}
+            </span>}
+        </span>}</span>,
+        "<span class="hljs-attribute">host</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span></span>,
+        "<span class="hljs-attribute">host_name</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">state</span>": <span class="hljs-value"><span class="hljs-string">"operational"</span></span>,
+    "<span class="hljs-attribute">mode</span>": <span class="hljs-value"><span class="hljs-string">"follower"</span></span>,
+    "<span class="hljs-attribute">engines</span>": <span class="hljs-value">{}</span>,
+    "<span class="hljs-attribute">memory</span>": <span class="hljs-value"><span class="hljs-number">988683878</span></span>,
+    "<span class="hljs-attribute">cpus</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+    "<span class="hljs-attribute">metadata</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">containership</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">version</span>": <span class="hljs-value"><span class="hljs-string">"1.8.1"</span>
+        </span>}
+    </span>}</span>,
+    "<span class="hljs-attribute">start_time</span>": <span class="hljs-value"><span class="hljs-number">1496952929132</span></span>,
+    "<span class="hljs-attribute">management_port</span>": <span class="hljs-value"><span class="hljs-number">2666</span></span>,
+    "<span class="hljs-attribute">praetor</span>": <span class="hljs-value">{
+       "<span class="hljs-attribute">start_time</span>": <span class="hljs-value"><span class="hljs-number">1496952929136</span></span>,
+       "<span class="hljs-attribute">leader_eligible</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+       "<span class="hljs-attribute">leader</span>": <span class="hljs-value"><span class="hljs-literal">false</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span></span>,
+    "<span class="hljs-attribute">port</span>": <span class="hljs-value"><span class="hljs-number">2777</span></span>,
+    "<span class="hljs-attribute">host_name</span>": <span class="hljs-value"><span class="hljs-string">"aa159c88-1234-1234-1234-1234234534"</span></span>,
+    "<span class="hljs-attribute">address</span>": <span class="hljs-value">{
+       "<span class="hljs-attribute">private</span>": <span class="hljs-value"><span class="hljs-string">"10.123.12.123"</span></span>,
+       "<span class="hljs-attribute">public</span>": <span class="hljs-value"><span class="hljs-string">"123.123.123.123"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">containers</span>":<span class="hljs-value">[...]
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="hosts-cluster-host-put" class="action put"><h4 class="action-heading"><div class="name">Update Cluster Host</div><a href="#hosts-cluster-host-put" class="method put">PUT</a><code class="uri">/{api_version}/hosts/{host}</code></h4><p>This updates the tags assigned to the given host.</p>
+<ul>
+<li>tags (object) - ALL tags the given host should have applied to it, including current.  To delete a tag just send all current tags other than the tag to delete.</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method put">PUT</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/hosts/<span class="hljs-attribute" title="host">host</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>host</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Host ID</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+    <span class="hljs-string">"tags"</span>: {...}
+}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong></div></div><div id="hosts-cluster-host-delete" class="action delete"><h4 class="action-heading"><div class="name">Delete Cluster Host</div><a href="#hosts-cluster-host-delete" class="method delete">DELETE</a><code class="uri">/{api_version}/hosts/{host}</code></h4><p>This removes the host from the cluster. It DOES NOT destroy the VM, be sure to do that manually afterwards.</p>
+<h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/hosts/<span class="hljs-attribute" title="host">host</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>host</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Host ID</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section><section id="variables" class="resource-group"><h2 class="group-heading">Variables <a href="#variables" class="permalink">&para;</a></h2><p>These actions are to add, update, and remove cluster variables. Cluster variables can be referenced when setting application environment variables in order to store global values and use them in multiple applications. Set the value of the application env var to <code>CS_USER_VARIABLE_{VARIABLE_NAME}</code> where <code>{VARIABLE_NAME}</code> is the name of the variable in all caps and using underscores instead of spaces to use the global variable value.</p>
+<div id="variables-get-cluster-variables" class="resource"><h3 class="resource-heading">Get Cluster Variables <a href="#variables-get-cluster-variables" class="permalink">&nbsp;&para;</a></h3><div id="variables-get-cluster-variables-get" class="action get"><h4 class="action-heading"><div class="name">Get Cluster Variables</div><a href="#variables-get-cluster-variables-get" class="method get">GET</a><code class="uri">/{api_version}/variables</code></h4><p>This gets all cluster variables.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/variables</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">user</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">my_global_var</span>": <span class="hljs-value"><span class="hljs-string">"my_value"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">autogenerated</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">CS_ADDRESS_REDIS</span>": <span class="hljs-value"><span class="hljs-string">"redis.e56a7312-1234-1234-1234-12341234567.containership"</span></span>,
+    "<span class="hljs-attribute">CS_DISCOVERY_PORT_REDIS</span>": <span class="hljs-value"><span class="hljs-number">10555</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="variables-cluster-variable" class="resource"><h3 class="resource-heading">Cluster Variable <a href="#variables-cluster-variable" class="permalink">&nbsp;&para;</a></h3><div id="variables-cluster-variable-post" class="action post"><h4 class="action-heading"><div class="name">Create Cluster Variable</div><a href="#variables-cluster-variable-post" class="method post">POST</a><code class="uri">/{api_version}/variables/user/{variable}</code></h4><p>This creates a cluster variable with the name in the url.</p>
+<ul>
+<li>value (string) - Value to be set for the variable.</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/variables/user/<span class="hljs-attribute" title="variable">variable</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>variable</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Variable name</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">value</span>": <span class="hljs-value"><span class="hljs-string">"my_value"</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>201</code></strong></div></div><div id="variables-cluster-variable-get" class="action get"><h4 class="action-heading"><div class="name">Get Cluster Variable</div><a href="#variables-cluster-variable-get" class="method get">GET</a><code class="uri">/{api_version}/variables/user/{variable}</code></h4><p>This gets the value current set for the given cluster variable.</p>
+<h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/variables/user/<span class="hljs-attribute" title="variable">variable</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>variable</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Variable name</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code><span class="hljs-string">"my_value"</span></code></pre><div style="height: 1px;"></div></div></div></div><div id="variables-cluster-variable-put" class="action put"><h4 class="action-heading"><div class="name">Update Cluster Variable</div><a href="#variables-cluster-variable-put" class="method put">PUT</a><code class="uri">/{api_version}/variables/user/{variable}</code></h4><p>This updates a cluster variable’s value.</p>
+<ul>
+<li>value (string) - Value to be set for the variable.</li>
+</ul>
+<h4>Example URI</h4><div class="definition"><span class="method put">PUT</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/variables/user/<span class="hljs-attribute" title="variable">variable</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>variable</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Variable name</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">value</span>": <span class="hljs-value"><span class="hljs-string">"my_new_value"</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong></div></div><div id="variables-cluster-variable-delete" class="action delete"><h4 class="action-heading"><div class="name">Delete Cluster Variable</div><a href="#variables-cluster-variable-delete" class="method delete">DELETE</a><code class="uri">/{api_version}/variables/user/{variable}</code></h4><p>This deletes a cluster variable.</p>
+<h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/<span class="hljs-attribute" title="api_version">api_version</span>/variables/user/<span class="hljs-attribute" title="variable">variable</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>api_version</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Version of containership core api</p>
+</dd><dt>variable</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<p>Variable name</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 12 Jun 2017</p><script>/* eslint-env browser */
+/* eslint quotes: [2, "single"] */
+'use strict';
+
+/*
+  Determine if a string ends with another string.
+*/
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+/*
+  Get a list of direct child elements by class name.
+*/
+function childrenByClass(element, name) {
+  var filtered = [];
+
+  for (var i = 0; i < element.children.length; i++) {
+    var child = element.children[i];
+    var classNames = child.className.split(' ');
+    if (classNames.indexOf(name) !== -1) {
+      filtered.push(child);
+    }
+  }
+
+  return filtered;
+}
+
+/*
+  Get an array [width, height] of the window.
+*/
+function getWindowDimensions() {
+  var w = window,
+      d = document,
+      e = d.documentElement,
+      g = d.body,
+      x = w.innerWidth || e.clientWidth || g.clientWidth,
+      y = w.innerHeight || e.clientHeight || g.clientHeight;
+
+  return [x, y];
+}
+
+/*
+  Collapse or show a request/response example.
+*/
+function toggleCollapseButton(event) {
+    var button = event.target.parentNode;
+    var content = button.parentNode.nextSibling;
+    var inner = content.children[0];
+
+    if (button.className.indexOf('collapse-button') === -1) {
+      // Clicked without hitting the right element?
+      return;
+    }
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+        // Currently showing, so let's hide it
+        button.className = 'collapse-button';
+        content.style.maxHeight = '0px';
+    } else {
+        // Currently hidden, so let's show it
+        button.className = 'collapse-button show';
+        content.style.maxHeight = inner.offsetHeight + 12 + 'px';
+    }
+}
+
+function toggleTabButton(event) {
+    var i, index;
+    var button = event.target;
+
+    // Get index of the current button.
+    var buttons = childrenByClass(button.parentNode, 'tab-button');
+    for (i = 0; i < buttons.length; i++) {
+        if (buttons[i] === button) {
+            index = i;
+            button.className = 'tab-button active';
+        } else {
+            buttons[i].className = 'tab-button';
+        }
+    }
+
+    // Hide other tabs and show this one.
+    var tabs = childrenByClass(button.parentNode.parentNode, 'tab');
+    for (i = 0; i < tabs.length; i++) {
+        if (i === index) {
+            tabs[i].style.display = 'block';
+        } else {
+            tabs[i].style.display = 'none';
+        }
+    }
+}
+
+/*
+  Collapse or show a navigation menu. It will not be hidden unless it
+  is currently selected or `force` has been passed.
+*/
+function toggleCollapseNav(event, force) {
+    var heading = event.target.parentNode;
+    var content = heading.nextSibling;
+    var inner = content.children[0];
+
+    if (heading.className.indexOf('heading') === -1) {
+      // Clicked without hitting the right element?
+      return;
+    }
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+      // Currently showing, so let's hide it, but only if this nav item
+      // is already selected. This prevents newly selected items from
+      // collapsing in an annoying fashion.
+      if (force || window.location.hash && endsWith(event.target.href, window.location.hash)) {
+        content.style.maxHeight = '0px';
+      }
+    } else {
+      // Currently hidden, so let's show it
+      content.style.maxHeight = inner.offsetHeight + 12 + 'px';
+    }
+}
+
+/*
+  Refresh the page after a live update from the server. This only
+  works in live preview mode (using the `--server` parameter).
+*/
+function refresh(body) {
+    document.querySelector('body').className = 'preload';
+    document.body.innerHTML = body;
+
+    // Re-initialize the page
+    init();
+    autoCollapse();
+
+    document.querySelector('body').className = '';
+}
+
+/*
+  Determine which navigation items should be auto-collapsed to show as many
+  as possible on the screen, based on the current window height. This also
+  collapses them.
+*/
+function autoCollapse() {
+  var windowHeight = getWindowDimensions()[1];
+  var itemsHeight = 64; /* Account for some padding */
+  var itemsArray = Array.prototype.slice.call(
+    document.querySelectorAll('nav .resource-group .heading'));
+
+  // Get the total height of the navigation items
+  itemsArray.forEach(function (item) {
+    itemsHeight += item.parentNode.offsetHeight;
+  });
+
+  // Should we auto-collapse any nav items? Try to find the smallest item
+  // that can be collapsed to show all items on the screen. If not possible,
+  // then collapse the largest item and do it again. First, sort the items
+  // by height from smallest to largest.
+  var sortedItems = itemsArray.sort(function (a, b) {
+    return a.parentNode.offsetHeight - b.parentNode.offsetHeight;
+  });
+
+  while (sortedItems.length && itemsHeight > windowHeight) {
+    for (var i = 0; i < sortedItems.length; i++) {
+      // Will collapsing this item help?
+      var itemHeight = sortedItems[i].nextSibling.offsetHeight;
+      if ((itemsHeight - itemHeight <= windowHeight) || i === sortedItems.length - 1) {
+        // It will, so let's collapse it, remove its content height from
+        // our total and then remove it from our list of candidates
+        // that can be collapsed.
+        itemsHeight -= itemHeight;
+        toggleCollapseNav({target: sortedItems[i].children[0]}, true);
+        sortedItems.splice(i, 1);
+        break;
+      }
+    }
+  }
+}
+
+/*
+  Initialize the interactive functionality of the page.
+*/
+function init() {
+    var i, j;
+
+    // Make collapse buttons clickable
+    var buttons = document.querySelectorAll('.collapse-button');
+    for (i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = toggleCollapseButton;
+
+        // Show by default? Then toggle now.
+        if (buttons[i].className.indexOf('show') !== -1) {
+            toggleCollapseButton({target: buttons[i].children[0]});
+        }
+    }
+
+    var responseCodes = document.querySelectorAll('.example-names');
+    for (i = 0; i < responseCodes.length; i++) {
+        var tabButtons = childrenByClass(responseCodes[i], 'tab-button');
+        for (j = 0; j < tabButtons.length; j++) {
+            tabButtons[j].onclick = toggleTabButton;
+
+            // Show by default?
+            if (j === 0) {
+                toggleTabButton({target: tabButtons[j]});
+            }
+        }
+    }
+
+    // Make nav items clickable to collapse/expand their content.
+    var navItems = document.querySelectorAll('nav .resource-group .heading');
+    for (i = 0; i < navItems.length; i++) {
+        navItems[i].onclick = toggleCollapseNav;
+
+        // Show all by default
+        toggleCollapseNav({target: navItems[i].children[0]});
+    }
+}
+
+// Initial call to set up buttons
+init();
+
+window.onload = function () {
+    autoCollapse();
+    // Remove the `preload` class to enable animations
+    document.querySelector('body').className = '';
+};
+</script></body></html>

@@ -1,0 +1,660 @@
+FORMAT: 1A
+
+# Containership Core API
+The Containership Core API.
+
+Current version: v1
+
+# Group Cluster
+Containership Cluster actions.
+
+## Get Cluster State [/{api_version}/cluster/state]
++ Parameters
+    + api_version (string) - Version of containership core api
+
+### Get Cluster State [GET]
+This gets the cluster hosts and applications.
+
++ Response 200 (application/json)
+
+        {
+            "hosts": [...],
+            "applications": [...]
+        }
+
+## Shutdown Containership [/{api_version}/cluster]
++ Parameters
+    + api_version (string) - Version of containership core api
+
+### Shutdown Containership [DELETE]
+This will shutdown all containership processes across the cluster.
+
++ Response 204
+
+
+# Group Applications
+Actions to add, remove, and update cluster applications.
+
+## Cluster Applications [/{api_version}/applications]
++ Parameters
+    + api_version (string) - Version of containership core api
+
+### Get All Applications [GET]
+This gets all applications currently running on the cluster.
+
++ Response 200 (application/json)
+
+        {
+            "redis":{
+               "id": "redis",
+               "tags":{
+                  "test": "tester",
+                  "constraints":{
+                     "per_host": 1
+                  }
+               },
+               "cpus": 0.1,
+               "image": "library/redis:3.0.3",
+               "engine": "docker",
+               "memory": 128,
+               "command": "redis-server --appendonly yes",
+               "respawn": true,
+               "volumes":[{
+                  "container": "/data"
+               }],
+               "env_vars": {},
+               "network_mode": "bridge",
+               "container_port": "6379",
+               "privileged": false,
+               "discovery_port": 10555,
+               "containers":[
+                  {
+                     "tags":{
+                        "host": "aa159c88-a24b-4b59-9113-cd9f41a4cdea",
+                        "test": "tester",
+                        "constraints":{
+                           "per_host": 1
+                        }
+                     },
+                     "cpus": 0.1,
+                     "image": "library/redis:3.0.3",
+                     "engine": "docker",
+                     "memory": 128,
+                     "command": "redis-server --appendonly yes",
+                     "respawn": true,
+                     "volumes":[{
+                        "container":"/data"
+                     }],
+                     "env_vars": {},
+                     "network_mode": "bridge",
+                     "container_port": "6379",
+                     "privileged": false,
+                     "discovery_port": 10555,
+                     "id": "05f1382f-e892-49f8-9f60-305b88e8aeb1",
+                     "status": "unloaded"
+                  }
+               ]
+            }
+            ...
+        }
+
+### Create Applications [POST]
+This creates new application(s) on the cluster.
+
++ {application name} (object) - Settings for the new application
++ {application name}.id (string) - ID/name of application
++ {application name}.cpus (number) - CPU allocation per container
++ {application name}.tags (object) - Object containing tags to configure how the application's containers are orchestrated.
++ {application name}.tags.constraints (object) - Optional object containing constrainsts for the application.
++ {application name}.tags.constraints.min (number) - Optional minimum number of containers of the application that must be running.
++ {application name}.tags.constraints.max (number) - Optional maximum number of containers of the application that can be running.
++ {application name}.tags.constraints.per_host (number) - Optional minimum number of containers of the application that must be running on each host.
++ {application name}.tags.partition (string) - Splits the number of containers of the application evenly between hosts with different values for a given tag.  For example if we partitioned on the tag "testtag", and were running 6 containers of the application, and had 3 follower hosts, two hosts have the tag "testtag: 1" and the third host has the host tag "testtag: 2" then 3 of the containers would be split between the two hosts with "testtag:1" and the other 3 containers would be on the host with the tag "testtag: 2".
++ {application name}.tags.metadata (object) - Anything under here is informational and will not constrain the application in any way.
++ {application name}.tags.{host tag name} - Any host tag name and value set at the root level of the tags object will cause the application to run solely on hosts with that host tag key and value.
++ {application name}.image (string) - Docker image registry path.
++ {application name}.engine (string) - linux container engine, currently always docker
++ {application name}.memory (string) - Memory allocation per container
++ {application name}.command (string) - Application start command. If your image contains an ENTRYPOINT this will be appended to the end of it.
++ {application name}.respawn (boolean) - Whether the containers should automatically respawn if unloaded.
++ {application name}.volumes (object[]) - Volumes to mount into the containers.
++ {application name}.env_vars (object) - Environment variables to pass into the containers
++ {application name}.containers (object[]) - Array of empty objects for the number of containers to be created for the application.
++ {application name}.network_mode (string) - Which networking interface to use. If "bridge", the container is given its own networking interface and can run on any port within the container that is then mapped out to a different port on the host.  If "host" the container runs on the host's networking interface and runs on the same port inside and outside of the container.  WARNING: If running in host mode, only one container of a given application can be running on each host.  This can cause scaling issues.  Read the help documentation on host constraint tagging to enforce this.
++ {application name}.container_port (string) - Port your application listens on in the container, the PORT environment variable is automatically set to this.
+
++ Request (application/json)
+
+        {
+            "redis": {
+                "id": "redis",
+                "cpus": 0.1,
+                "tags": {},
+                "image": "library/redis:3.0.3",
+                "engine": "docker",
+                "memory": 128,
+                "command": "redis-server --appendonly yes",
+                "respawn": true,
+                "volumes": [{
+                   "container":"/data"
+                }],
+                "env_vars": {},
+                "containers": [{}],
+                "network_mode": "bridge",
+                "container_port": "6379"
+            }
+            ...
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": true
+        }
+
+
+## Cluster Application [/{api_version}/applications/{application}]
++ Parameters
+    + api_version (string) - Version of containership core api
+    + application (string) - Application ID
+
+### Get Application [GET]
+This gets the details of the specified application running on the cluster.
+
++ Response 200 (application/json)
+
+        {
+           "id": "redis",
+           "tags":{
+              "test": "tester",
+              "constraints":{
+                 "per_host": 1
+              }
+           },
+           "cpus": 0.1,
+           "image": "library/redis:3.0.3",
+           "engine": "docker",
+           "memory": 128,
+           "command": "redis-server --appendonly yes",
+           "respawn": true,
+           "volumes":[{
+              "container": "/data"
+           }],
+           "env_vars": {},
+           "network_mode": "bridge",
+           "container_port": "6379",
+           "privileged": false,
+           "discovery_port": 10555,
+           "containers":[
+              {
+                 "tags":{
+                    "host": "aa159c88-a24b-4b59-9113-cd9f41a4cdea",
+                    "test": "tester",
+                    "constraints":{
+                       "per_host": 1
+                    }
+                 },
+                 "cpus": 0.1,
+                 "image": "library/redis:3.0.3",
+                 "engine": "docker",
+                 "memory": 128,
+                 "command": "redis-server --appendonly yes",
+                 "respawn": true,
+                 "volumes":[{
+                    "container":"/data"
+                 }],
+                 "env_vars": {},
+                 "network_mode": "bridge",
+                 "container_port": "6379",
+                 "privileged": false,
+                 "discovery_port": 10555,
+                 "id": "05f1382f-e892-49f8-9f60-305b88e8aeb1",
+                 "status": "unloaded"
+              }
+           ]
+        }
+
+### Create Application [POST]
+This creates a new application on the cluster.
+
++ id (string) - ID/name of application
++ cpus (number) - CPU allocation per container
++ tags (object) - Object containing tags to configure how the application's containers are orchestrated.
++ tags.constraints (object) - Optional object containing constrainsts for the application.
++ tags.constraints.min (number) - Optional minimum number of containers of the application that must be running.
++ tags.constraints.max (number) - Optional maximum number of containers of the application that can be running.
++ tags.constraints.per_host (number) - Optional minimum number of containers of the application that must be running on each host.
++ tags.partition (string) - Splits the number of containers of the application evenly between hosts with different values for a given tag.  For example if we partitioned on the tag "testtag", and were running 6 containers of the application, and had 3 follower hosts, two hosts have the tag "testtag: 1" and the third host has the host tag "testtag: 2" then 3 of the containers would be split between the two hosts with "testtag:1" and the other 3 containers would be on the host with the tag "testtag: 2".
++ tags.metadata (object) - Anything under here is informational and will not constrain the application in any way.
++ tags.{host tag name} - Any host tag name and value set at the root level of the tags object will cause the application to run solely on hosts with that host tag key and value.
++ image (string) - Docker image registry path.
++ engine (string) - linux container engine, currently always docker
++ memory (string) - Memory allocation per container
++ command (string) - Application start command. If your image contains an ENTRYPOINT this will be appended to the end of it.
++ respawn (boolean) - Whether the containers should automatically respawn if unloaded.
++ volumes (object[]) - Volumes to mount into the containers.
++ env_vars (object) - Environment variables to pass into the containers
++ containers (object[]) - Array of empty objects for the number of containers to be created for the application.
++ network_mode (string) - Which networking interface to use. If "bridge", the container is given its own networking interface and can run on any port within the container that is then mapped out to a different port on the host.  If "host" the container runs on the host's networking interface and runs on the same port inside and outside of the container.  WARNING: If running in host mode, only one container of a given application can be running on each host.  This can cause scaling issues.  Read the help documentation on host constraint tagging to enforce this.
++ container_port (string) - Port your application listens on in the container, the PORT environment variable is automatically set to this.
+
+
++ Request (application/json)
+
+        {
+            "id": "redis",
+            "cpus": 0.1,
+            "tags": {},
+            "image": "library/redis:3.0.3",
+            "engine": "docker",
+            "memory": 128,
+            "command": "redis-server --appendonly yes",
+            "respawn": true,
+            "volumes": [{
+               "container":"/data"
+            }],
+            "env_vars": {},
+            "containers": [{}],
+            "network_mode": "bridge",
+            "container_port": "6379"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": true
+        }
+
+
+### Update Application [PUT]
+This updates an application running on the cluster.
+
++ Request (application/json)
+
+        {
+            "id": "redis",
+            "cpus": 0.1,
+            "tags": {},
+            "image": "library/redis:3.0.3",
+            "engine": "docker",
+            "memory": 128,
+            "command": "redis-server --appendonly yes",
+            "respawn": true,
+            "volumes": [{
+               "container":"/data"
+            }],
+            "env_vars": {},
+            "containers": [{}],
+            "network_mode": "bridge",
+            "container_port": "6379"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": true
+        }
+
+
+### Delete Application [DELETE]
+This deletes an application currently running on the cluster.
+
++ Response 204
+
+
+# Group Containers
+These actions are used to manipulate and scale the number of containers for a given application.
+
+## Application Containers [/{api_version}/applications/{application}/containers]
++ Parameters
+    + api_version (string) - Version of containership core api
+    + application (string) - Application ID
+
+### Get Application Containers [GET]
+This gets the details of the containers currently running for the given application.
+
++ Response 200 (application/json)
+
+        [{
+            "tags":{
+                "host": "aa159c88-a24b-4b59-9113-cd9f41a4cdea",
+                "test": "tester",
+                "constraints":{
+                   "per_host": 1
+                }
+            },
+            "cpus": 0.1,
+            "image": "library/redis:3.0.3",
+            "engine": "docker",
+            "memory": 128,
+            "command": "redis-server --appendonly yes",
+            "respawn": true,
+            "volumes":[{
+                "container":"/data"
+            }],
+            "env_vars": {},
+            "network_mode": "bridge",
+            "container_port": "6379",
+            "privileged": false,
+            "discovery_port": 10555,
+            "id": "05f1382f-e892-49f8-9f60-305b88e8aeb1",
+            "status": "unloaded"
+        }]
+
+
+### Create Application Containers [POST]
+This adds the number of containers in the "count" query string to the application.
+
++ count (number) - REQUIRED QUERY STRING value of the number of containers to add.
++ tags (object) - Optional tags to add to container
++ container_port - Optional port the application should listen on inside of the container
++ host_port - Optional port to map the container port to on the host's networking interface
+
++ Request (application/json)
+
+        {
+            "tags": {},
+            "container_port": 3000,
+            "host_port": 10000
+        }
+
++ Response 201
+
+
+### Delete Application Containers [DELETE]
+This removes the number of containers in the "count" query that are running this application.
+
++ count (number) - REQUIRED QUERY STRING value of the number of containers to remove.
+
++ Response 204
+
+
+## Application Container [/{api_version}/applications/{application}/containers/{container}]
++ Parameters
+    + api_version (string) - Version of containership core api
+    + application (string) - Application ID
+    + container (string) - Container ID
+
+### Get Application Container [GET]
+This gets the details of the specified application container.
+
++ Response 200 (application/json)
+
+        {
+            "tags":{
+                "host": "aa159c88-a24b-4b59-9113-cd9f41a4cdea",
+                "test": "tester",
+                "constraints":{
+                   "per_host": 1
+                }
+            },
+            "cpus": 0.1,
+            "image": "library/redis:3.0.3",
+            "engine": "docker",
+            "memory": 128,
+            "command": "redis-server --appendonly yes",
+            "respawn": true,
+            "volumes":[{
+                "container":"/data"
+            }],
+            "env_vars": {},
+            "network_mode": "bridge",
+            "container_port": "6379",
+            "privileged": false,
+            "discovery_port": 10555,
+            "id": "05f1382f-e892-49f8-9f60-305b88e8aeb1",
+            "status": "unloaded"
+        }
+
+### Delete Application Container [DELETE]
+This deletes the specified application container.
+
++ Response 204
+
+
+# Group Hosts
+These actions are used to get the information for cluster hosts, update host tags, and remove them from the cluster.
+
+## Get Cluster Hosts [/{api_version}/hosts]
++ Parameters
+    + api_version (string) - Version of containership core api
+
+### Get Cluster Hosts [GET]
+This get the hosts in the cluster.
+
++ Response 200 (application/json)
+
+        {
+           "aa159c88-1234-1234-1234-1234234534": {
+                "last_sync": 1497022452712,
+                "tags": {
+                   "cloud":{
+                        "region": "nyc1",
+                        "droplet_id": "12345678",
+                        "provider": "digital_ocean"
+                    },
+                    "metadata": {
+                        "engines": {
+                            "docker": {
+                                "client_version":"17.05.0-ce",
+                                "api_version":"1.29",
+                                "go_version":"go1.7.5"
+                            }
+                        }
+                    },
+                    "host": "aa159c88-1234-1234-1234-1234234534",
+                    "host_name": "aa159c88-1234-1234-1234-1234234534"
+                },
+                "state": "operational",
+                "mode": "follower",
+                "engines": {},
+                "memory": 988683878,
+                "cpus": 1,
+                "metadata": {
+                    "containership": {
+                        "version": "1.8.1"
+                    }
+                },
+                "start_time": 1496952929132,
+                "management_port": 2666,
+                "praetor": {
+                   "start_time": 1496952929136,
+                   "leader_eligible": false,
+                   "leader": false
+                },
+                "id": "aa159c88-1234-1234-1234-1234234534",
+                "port": 2777,
+                "host_name": "aa159c88-1234-1234-1234-1234234534",
+                "address": {
+                   "private": "10.123.12.123",
+                   "public": "123.123.123.123"
+                },
+                "containers":[...]
+           },
+           "f4da35b0-1234-1234-1234-1234234534": {
+                "last_sync": 1497022452306,
+                "tags": {
+                    "cloud": {
+                        "region": "nyc1",
+                        "droplet_id": "51210243",
+                        "provider": "digital_ocean"
+                    },
+                    "host": "f4da35b0-1234-1234-1234-1234234534",
+                    "host_name": "f4da35b0-1234-1234-1234-1234234534"
+                },
+                "state": "operational",
+                "praetor": {
+                    "leader": true,
+                    "leader_eligible": true,
+                    "start_time": 1496952914591
+               },
+               "mode": "leader",
+               "metadata": {
+                    "containership": {
+                        "version": "1.8.1"
+                    }
+                },
+                "start_time": 1496952914587,
+                "management_port": 2666,
+                "id": "f4da35b0-1234-1234-1234-1234234534",
+                "port": 2777,
+                "host_name": "f4da35b0-1234-1234-1234-1234234534",
+                "address": {
+                    "private": "10.136.65.133",
+                    "public": "192.241.130.165"
+                },
+                "pubkey": [...],
+                "prime": [...],
+                "containers": []
+            }
+        }
+
+
+## Cluster Host [/{api_version}/hosts/{host}]
++ Parameters
+    + api_version (string) - Version of containership core api
+    + host (string) - Host ID
+
+### Get Cluster Host [GET]
+This gets the details of the specified host in the cluster.
+
++ Response 200 (application/json)
+
+        {
+            "last_sync": 1497022452712,
+            "tags": {
+                "cloud": {
+                    "region": "nyc1",
+                    "droplet_id": "12345678",
+                    "provider": "digital_ocean"
+                },
+                "metadata":{
+                    "engines":{
+                       "docker":{
+                            "client_version":"17.05.0-ce",
+                            "api_version":"1.29",
+                            "go_version":"go1.7.5"
+                       }
+                    }
+                },
+                "host": "aa159c88-1234-1234-1234-1234234534",
+                "host_name": "aa159c88-1234-1234-1234-1234234534"
+            },
+            "state": "operational",
+            "mode": "follower",
+            "engines": {},
+            "memory": 988683878,
+            "cpus": 1,
+            "metadata": {
+                "containership": {
+                    "version": "1.8.1"
+                }
+            },
+            "start_time": 1496952929132,
+            "management_port": 2666,
+            "praetor": {
+               "start_time": 1496952929136,
+               "leader_eligible": false,
+               "leader": false
+            },
+            "id": "aa159c88-1234-1234-1234-1234234534",
+            "port": 2777,
+            "host_name": "aa159c88-1234-1234-1234-1234234534",
+            "address": {
+               "private": "10.123.12.123",
+               "public": "123.123.123.123"
+            },
+            "containers":[...]
+        }
+
+
+### Update Cluster Host [PUT]
+This updates the tags assigned to the given host.
+
++ tags (object) - ALL tags the given host should have applied to it, including current.  To delete a tag just send all current tags other than the tag to delete.
+
++ Request (application/json)
+
+        {
+            "tags": {...}
+        }
+
++ Response 200
+
+
+### Delete Cluster Host [DELETE]
+This removes the host from the cluster. It DOES NOT destroy the VM, be sure to do that manually afterwards.
+
++ Response 204
+
+
+
+# Group Variables
+These actions are to add, update, and remove cluster variables. Cluster variables can be referenced when setting application environment variables in order to store global values and use them in multiple applications. Set the value of the application env var to `CS_USER_VARIABLE_{VARIABLE_NAME}` where `{VARIABLE_NAME}` is the name of the variable in all caps and using underscores instead of spaces to use the global variable value.
+
+
+## Get Cluster Variables [/{api_version}/variables]
++ Parameters
+    + api_version (string) - Version of containership core api
+
+### Get Cluster Variables [GET]
+This gets all cluster variables.
+
++ Response 200 (application/json)
+
+        {
+            "user": {
+                "my_global_var": "my_value"
+            },
+            "autogenerated": {
+                "CS_ADDRESS_REDIS": "redis.e56a7312-1234-1234-1234-12341234567.containership",
+                "CS_DISCOVERY_PORT_REDIS": 10555
+            }
+        }
+
+## Cluster Variable [/{api_version}/variables/user/{variable}]
++ Parameters
+    + api_version (string) - Version of containership core api
+    + variable (string) - Variable name
+
+### Create Cluster Variable [POST]
+This creates a cluster variable with the name in the url.
+
++ value (string) - Value to be set for the variable.
+
++ Request (application/json)
+
+        {
+            "value": "my_value"
+        }
+
++ Response 201
+
+
+### Get Cluster Variable [GET]
+This gets the value current set for the given cluster variable.
+
++ Response 200 (application/json)
+
+        "my_value"
+
+
+### Update Cluster Variable [PUT]
+This updates a cluster variable's value.
+
++ value (string) - Value to be set for the variable.
+
++ Request (application/json)
+
+        {
+            "value": "my_new_value"
+        }
+
++ Response 200
+
+
+### Delete Cluster Variable [DELETE]
+This deletes a cluster variable.
+
++ Response 204
+
